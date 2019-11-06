@@ -1,5 +1,4 @@
-﻿using SQLitePCL;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -8,20 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Test_UWP.entity;
 using Test_UWP.Utils;
+using SQLitePCL;
 
-namespace Test_UWP
+namespace Test_UWP.Models
 {
     class ContactModel
     {
-        public bool Insert(Contact contact )
+        public bool Insert(Contact contact)
         {
             try
             {
-                using (var stt = SQLiteUtil.GetIntances().Connection.Prepare("INSERT INTO Contact (Name, Phone) VALUES (?, ?)"))
+                using (var stt = SQLiteUtil.GetIntances().Connection.Prepare("INSERT INTO Contact (Name, PhoneNumber) VALUES (?, ?)"))
                 {
                     stt.Bind(1, contact.Name);
-                    stt.Bind(2, contact.Phone);
-                  
+                    stt.Bind(2, contact.PhoneNumber);
                     stt.Step();
                     return true;
                 }
@@ -32,21 +31,24 @@ namespace Test_UWP
             }
             return false;
         }
-        public Contact GetContactByName(string name)
+
+        public ObservableCollection<Contact> GetContactByName(string name)
         {
             try
             {
+                var list = new ObservableCollection<Contact>();
                 using (var stt = SQLiteUtil.GetIntances().Connection.Prepare("SELECT * FROM Contact WHERE Name = ?"))
                 {
                     stt.Bind(1, name);
-                    if (stt.Step() == SQLiteResult.ROW)
+                    while (stt.Step() == SQLiteResult.ROW)
                     {
-                        return (new Contact
+                        list.Add(new Contact
                         {
                             Name = (string)stt[1],
-                            Phone = (long)stt[2],
+                            PhoneNumber = (long)stt[2],
                         });
                     }
+                    return list;
                 }
             }
             catch (Exception ex)
@@ -69,7 +71,7 @@ namespace Test_UWP
                         list.Add(new Contact
                         {
                             Name = (string)stt[1],
-                            Phone = (long)stt[2],
+                            PhoneNumber = (long)stt[2],
                         });
                     }
                     return list;
@@ -83,3 +85,4 @@ namespace Test_UWP
         }
     }
 }
+

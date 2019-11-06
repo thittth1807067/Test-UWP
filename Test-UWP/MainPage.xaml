@@ -5,10 +5,44 @@
     xmlns:local="using:Test_UWP"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:entity="using:Test_UWP.entity"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid HorizontalAlignment="Center" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Column="0">
+            <StackPanel>
+                <ListView x:Name="ListViewContact" Width="420" Height="650">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="entity:Contact">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock  x:Name="Name"  FontSize="20" FontWeight="Bold" Text="{Binding Name}"></TextBlock>
+                                <TextBlock  x:Name="PhoneNumber"  FontSize="10" FontWeight="Bold" Text="{Binding PhoneNumber}"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
+       
+        <StackPanel Grid.Column="1"  Margin="10,3,10,450" Width="250" Background="LightGray" Height="250">
+            <TextBlock HorizontalAlignment="Center" FontSize="20" Margin="0,5,0,10"> Add Contact</TextBlock>
+            <TextBlock  Margin="10,0,0,0" >Name</TextBlock>
+            <TextBox  x:Name="Name"  Margin="10"/>
+            <TextBlock  Margin="10,0,0,0" >PhoneNumber</TextBlock>
+            <TextBox x:Name="PhoneNumber"  Margin="10"/>
+            <Button x:Name="BtnContact"  Click="AddContact_OnClick" Content="Add Contact" Width="250"  Margin="10"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1"   Width="250" Margin="0,150,0,0" Background="LightGray" Height="250">
+            <TextBlock HorizontalAlignment ="Center" FontSize="20" Margin="0,5,0,10"> Search Contact</TextBlock>
+            <TextBlock  Margin="10,0,0,0"  x:Name="StatusSearch"></TextBlock>
+            <TextBox x:Name="KeyWord"  Margin="10"/>
 
+            <Button x:Name="BtnSearch" Click="SearchContact_OnClick" Content="SearchContact" Width="250"  Margin="10"/>
+        </StackPanel>
     </Grid>
 </Page>

@@ -9,7 +9,7 @@ namespace Test_UWP.Utils
 {
     class SQLiteUtil
     {
-         private const string DatabaseName = "demo.db";
+        private const string DatabaseName = "contact.db";
 
         private static SQLiteUtil _instance;
         public SQLiteConnection Connection { get; }
